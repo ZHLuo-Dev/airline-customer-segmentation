@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-**Objective:** Segment 62K+ airline loyalty customers using the LRFMC framework and predict churn risk among high-value customers, enabling data-driven marketing and retention strategies.
+**Objective:** Segment 62K+ airline frequent flyer program members using the LRFMC framework and predict churn risk among loyal core customers for data-driven marketing and retention strategies.
 
-**Business Value:** Targeted marketing based on distinct customer value profiles and proactive retention outreach for at-risk valuable customers.
+**Business Value:** Targeted marketing strategies based on distinct customer value profiles and proactive retention for at-risk customers.
 
 ---
 
@@ -57,7 +57,7 @@ Evaluated two cluster-quality metrics across k = 3 to 9:
 | Silhouette Score        | 6      | ≈ 0.28   |
 | Calinski-Harabasz Index | 4      | ≈ 21,800 |
 
-**Final choice: k = 5** — a business-driven compromise between the two metrics. k=4 would merge small but strategically important segments (VIP, Important Retention); k=6 would fragment segments beyond actionable size.
+**Final choice: k = 5** — a business-driven compromise between the two metrics. k=4 would merge small but strategically important segments (VIP, Discount-Sensitive); k=6 would fragment segments beyond actionable size.
 
 ### 5. K-Means Clustering
 
@@ -65,7 +65,7 @@ Trained with `n_clusters=5, random_state=123, n_init=10` on standardized LRFMC f
 
 ### 6. Churn Prediction with LSTM
 
-**Target variable:** For High-Value Customers (n=15,728), churn is defined as `LAST_TO_END > 120 days`. This threshold reflects 2-3x the typical high-value flyer activity cycle, and falls between the median (76 days) and 75th percentile (156 days) of the observed distribution.
+**Target variable:** For Loyal Core Customers (n=15,728), churn is defined as `LAST_TO_END > 120 days`. This threshold reflects 2-3x the typical high-value flyer activity cycle, and falls between the median (76 days) and 75th percentile (156 days) of the observed distribution.
 
 **Input features:** 10 behavioral indicators including recent-vs-historical activity ratios (`Ration_L1Y_Flight_Count`, `Ration_L1Y_BPS`), point accumulation (`L1Y_BP_SUM`, `AVG_BP_SUM`), flight frequency (`FLIGHT_COUNT`, `AVG_FLIGHT_COUNT`), total miles (`SEG_KM_SUM`), annual spend (`SUM_YR_1`, `SUM_YR_2`), and discount rate (`avg_discount`).
 
@@ -75,48 +75,71 @@ Trained with `n_clusters=5, random_state=123, n_init=10` on standardized LRFMC f
 
 ## Key Results
 
-### Customer Segmentation — 5 Clusters
+### Customer Segmentation — 5 Segments
 
 Cluster centers reported as z-scores (positive = above average; negative = below average).
 
-| Cluster               | Size   | %     | L     | R     | F     | M     | C     | Standout |
-| --------------------- | ------ | ----- | ----- | ----- | ----- | ----- | ----- | -------- |
-| General Developmental | 24,611 | 39.7% | −0.70 | −0.41 | −0.16 | −0.16 | −0.26 | R        |
-| High-Value            | 15,728 | 25.3% | +1.16 | −0.38 | −0.09 | −0.09 | −0.16 | L, R     |
-| VIP                   | 5,337  | 8.6%  | +0.48 | −0.80 | +2.48 | +2.42 | +0.31 | F, M, R  |
-| Potential Churn       | 12,111 | 19.5% | −0.31 | +1.69 | −0.57 | −0.54 | −0.18 | None     |
-| Important Retention   | 4,257  | 6.9%  | +0.04 | −0.00 | −0.23 | −0.24 | +2.17 | C        |
+| Segment            | Size   | %     | L     | R     | F     | M     | C     | Standout |
+| ------------------ | ------ | ----- | ----- | ----- | ----- | ----- | ----- | -------- |
+| New Growth         | 24,611 | 39.7% | −0.70 | −0.41 | −0.16 | −0.16 | −0.26 | R        |
+| Loyal Core         | 15,728 | 25.3% | +1.16 | −0.38 | −0.09 | −0.09 | −0.16 | L, R     |
+| VIP                | 5,337  | 8.6%  | +0.48 | −0.80 | +2.48 | +2.42 | +0.31 | F, M, R  |
+| Lapsed             | 12,111 | 19.5% | −0.31 | +1.69 | −0.57 | −0.54 | −0.18 | None     |
+| Discount-Sensitive | 4,257  | 6.9%  | +0.04 | −0.00 | −0.23 | −0.24 | +2.17 | C        |
 
-### Cluster Profiles and Targeted Strategy
+### Segment Profiles and Targeted Strategy
 
-| Cluster                   | Behavioral Profile                                          | Marketing / Retention Strategy                                     |
-| ------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------ |
-| **General Developmental** | Short tenure, recently flew but low frequency and miles     | Brand promotion and onboarding campaigns to grow engagement        |
-| **High-Value**            | Long tenure and still actively flying — the core loyal base | Rewards programs and tenure-based perks to maintain loyalty        |
-| **VIP**                   | Longest tenure, highest flight count, highest miles         | Premium services, dedicated support, ambassador programs           |
-| **Potential Churn**       | No standout strength; long gap since last flight            | Targeted coupons and re-engagement campaigns, churn-cause analysis |
-| **Important Retention**   | Heavy discount reliance, average on other dimensions        | Tiered discount retention before eligibility lapses                |
+| Segment                | Behavioral Profile                                       | Marketing / Retention Strategy                                           |
+| ---------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------ |
+| **New Growth**         | Newest members, recently flew but low frequency          | Post-enrollment bonuses and route recommendations to build flying habits |
+| **Loyal Core**         | Longest membership, still actively flying                | Anniversary rewards and tier upgrades to reinforce loyalty               |
+| **VIP**                | Most frequent, highest miles, most recently active       | Dedicated support, complimentary upgrades, exclusive events              |
+| **Lapsed**             | All metrics below average, longest gap since last flight | Low-cost reactivation offers and status reinstatement challenges         |
+| **Discount-Sensitive** | Near-average except heavy discount reliance              | Promotional fares on off-peak routes to fill underutilized capacity      |
+
+### Behavioral Analysis
+
+Each segment is named based on its dominant LRFMC behavioral pattern:
+
+**VIP Customers** have the highest flight frequency (F=+2.48) and total miles (M=+2.42), with the most recent activity (R=−0.80). They are the top revenue contributors and require premium service differentiation to prevent competitor poaching.
+
+**Loyal Core Customers** have the longest membership duration (L=+1.16) and remain actively engaged. They have maintained consistent engagement over the longest membership period, and recognition of their loyalty is key to maintaining this relationship.
+
+**New Growth Customers** are the newest members (L=−0.70) who have recently flown (R=−0.41) but have not yet built up frequency or miles. At 39.7% of the base, this is the largest segment and the primary growth engine. The onboarding experience in their first few months determines whether they graduate into Loyal Core or lapse into inactivity.
+
+**Lapsed Customers** show the longest gap since their last flight (R=+1.69) with all other metrics below average. Their low frequency (F=−0.57) and short tenure (L=−0.31) suggest they never developed strong engagement with the program before becoming inactive. Thus, reactivation efforts should be low-cost and time-limited to test responsiveness before committing significant resources.
+
+**Discount-Sensitive Customers** have near-average behavior across all dimensions except an extremely high discount rate (C=+2.17). They consistently book discounted fare classes. Rather than trying to shift them to premium fares, the optimal strategy is to channel them toward off-peak and low load factor routes where their bookings fill otherwise empty seats, generating positive marginal revenue.
 
 ### Churn Prediction Performance
 
-On High-Value Customers (n=15,728):
+On Loyal Core Customers (n=15,728):
 
-- **Accuracy:** 0.71
-- **AUC:** 0.77
-- **Log Loss:** 0.54
+- **Accuracy:** 0.7139
+- **AUC:** 0.7699
+- **Log Loss:** 0.5386
 
-The model identifies high-value customers at risk of churning, so the airline can step in with targeted retention campaigns.
+The model identifies loyal core customers at risk of churning, so the airline can step in with targeted retention campaigns.
 
 ---
 
 ## Strategic Recommendations
 
-| Decision                    | Recommendation                                                                                                   |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| Marketing budget allocation | Differentiate spend by segment: VIP gets service investment, Potential Churn gets defensive discounts            |
-| Retention prioritization    | Combine LSTM churn score with segment tier — High-Value members with high churn score get first outreach         |
-| Product positioning         | Build two loyalty tracks: service-led for VIP / High-Value, price-led for Potential Churn / Important Retention  |
-| New member onboarding       | General Developmental (40% of base) is the growth engine — invest in onboarding to graduate them into High-Value |
+| Decision                    | Recommendation                                                                                           |
+| --------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Marketing budget allocation | Differentiate spend by segment: VIP gets service investment, Lapsed gets low-cost reactivation offers    |
+| Retention prioritization    | Combine LSTM churn score with segment tier — Loyal Core members with high churn score get first outreach |
+| Product positioning         | Build two loyalty tracks: service-led for VIP / Loyal Core, price-led for Lapsed / Discount-Sensitive    |
+| New member onboarding       | New Growth (40% of base) is the growth engine — invest in onboarding to graduate them into Loyal Core    |
+
+---
+
+## Tableau Dashboard
+
+![Segmentation Overview](tableau_dashboard_segmentation.jpg)
+![Churn Analysis](tableau_dashboard_churn.jpg)
+
+[View Interactive Dashboard on Tableau Public](https://public.tableau.com/views/Book_v1__17784489161220/CustomerSegmentation?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
 ---
 
