@@ -136,10 +136,15 @@ The model identifies loyal core customers at risk of churning, so the airline ca
 
 ## Tableau Dashboard
 
+### Dashboard 1: Customer Segmentation
+
 ![Segmentation Overview](tableau_dashboard_segmentation.png)
+
+### Dashboard 2: Churn Prediction
+
 ![Churn Analysis](tableau_dashboard_churn.png)
 
-[View Interactive Dashboard on Tableau Public](https://public.tableau.com/views/Book_v1__17784489161220/CustomerSegmentation?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
+For full interactivity and detailed views, explore the live dashboard on [Tableau Public](https://public.tableau.com/views/Book_v1__17784489161220/CustomerSegmentation?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link)
 
 ---
 
