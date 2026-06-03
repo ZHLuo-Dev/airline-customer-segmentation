@@ -151,7 +151,7 @@ For full interactivity and detailed views, explore the [live dashboard](https://
 ## Tech Stack
 
 - **Python 3** — Pandas, NumPy
-- **Scikit-learn** — StandardScaler, K-Means, Silhouette Score, Calinski-Harabasz Index
+- **scikit-learn** — StandardScaler, K-Means, Silhouette Score, Calinski-Harabasz Index
 - **PyTorch** — LSTM model for churn prediction
 - **Tableau** — interactive dashboard and visualization
 - **Matplotlib, Seaborn** — visualization
@@ -164,8 +164,8 @@ For full interactivity and detailed views, explore the [live dashboard](https://
 airline-customer-segmentation/
 ├── airline_customer_segmentation.ipynb   # Main notebook
 ├── README.md
-├── tableau_dashboard_segmentation.png            # Dashboard screenshot
-├── tableau_dashboard_churn.png                   # Dashboard screenshot
+├── tableau_dashboard_segmentation.png            # Dashboard preview
+├── tableau_dashboard_churn.png                   # Dashboard preview
 ├── requirements.txt
 └── .gitignore
 ```
