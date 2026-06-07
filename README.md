@@ -63,7 +63,13 @@ Evaluated two cluster-quality metrics across k = 3 to 9:
 
 Trained with `n_clusters=5, random_state=123, n_init=10` on standardized LRFMC features.
 
-### 6. Churn Prediction with LSTM
+### 6. Churn Prediction with Logistic Regression
+
+Built a logistic regression baseline on Loyal Core Customers (n=15,728)
+using the same 10 behavioral features and churn definition (LAST_TO_END > 120 days).
+Evaluated with Accuracy, AUC, Precision, Recall, F1, and ROC curve.
+
+### 7. Churn Prediction with LSTM
 
 **Target variable:** For Loyal Core Customers (n=15,728), churn is defined as `LAST_TO_END > 120 days`. This threshold reflects 2-3x the typical high-value flyer activity cycle, and falls between the median (76 days) and 75th percentile (156 days) of the observed distribution.
 
@@ -111,13 +117,23 @@ Each segment is named based on its dominant LRFMC behavioral pattern:
 
 **Discount-Sensitive Customers** have near-average behavior across all dimensions except an extremely high discount rate (C=+2.17). They consistently book discounted fare classes. Rather than trying to shift them to premium fares, the optimal strategy is to channel them toward off-peak and low load factor routes where their bookings fill otherwise empty seats, generating positive marginal revenue.
 
-### Churn Prediction Performance
+### Churn Prediction — Logistic Regression (Part 2)
 
 On Loyal Core Customers (n=15,728):
 
-- **Accuracy:** 0.7139
-- **AUC:** 0.7699
-- **Log Loss:** 0.5386
+- **Accuracy:** 0.7146
+- **AUC:** 0.7709
+- **Precision:** 0.6323
+- **Recall:** 0.4755
+- **F1:** 0.5428
+
+### Churn Prediction — LSTM (Part 3)
+
+On Loyal Core Customers (n=15,728):
+
+- **Accuracy:** 0.7161
+- **AUC:** 0.7758
+- **Log Loss:** 0.5311
 
 The model identifies loyal core customers at risk of churning, so the airline can step in with targeted retention campaigns.
 
@@ -125,12 +141,12 @@ The model identifies loyal core customers at risk of churning, so the airline ca
 
 ## Strategic Recommendations
 
-| Decision                    | Recommendation                                                                                           |
-| --------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Marketing budget allocation | Differentiate spend by segment: VIP gets service investment, Lapsed gets low-cost reactivation offers    |
-| Retention prioritization    | Combine LSTM churn score with segment tier — Loyal Core members with high churn score get first outreach |
-| Product positioning         | Build two loyalty tracks: service-led for VIP / Loyal Core, price-led for Lapsed / Discount-Sensitive    |
-| New member onboarding       | New Growth (40% of base) is the growth engine — invest in onboarding to graduate them into Loyal Core    |
+| Decision                    | Recommendation                                                                                                 |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| Marketing budget allocation | Differentiate spend by segment: VIP gets service investment, Lapsed gets low-cost reactivation offers          |
+| Retention prioritization    | Combine churn prediction score with segment tier — Loyal Core members with high churn score get first outreach |
+| Product positioning         | Build two loyalty tracks: service-led for VIP / Loyal Core, price-led for Lapsed / Discount-Sensitive          |
+| New member onboarding       | New Growth (40% of base) is the growth engine — invest in onboarding to graduate them into Loyal Core          |
 
 ---
 
@@ -151,7 +167,7 @@ For full interactivity and detailed views, explore the [live dashboard](https://
 ## Tech Stack
 
 - **Python 3** — Pandas, NumPy
-- **scikit-learn** — StandardScaler, K-Means, Silhouette Score, Calinski-Harabasz Index
+- **scikit-learn** — StandardScaler, K-Means, Silhouette Score, Calinski-Harabasz Index, LogisticRegression
 - **PyTorch** — LSTM model for churn prediction
 - **Tableau** — interactive dashboard and visualization
 - **Matplotlib, Seaborn** — visualization
