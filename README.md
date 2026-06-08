@@ -12,7 +12,7 @@
 
 - **Data Source:** Chinese airline frequent flyer program dataset
 - **Records:** 62,988 customers (62,044 after cleaning)
-- **Raw Features:** 44 columns including flight frequency, mileage, membership duration, points activity, discount behavior, and demographics
+- **Raw Features:** 41 columns including flight frequency, mileage, membership duration, points activity, discount behavior, and demographics
 
 ---
 
@@ -95,13 +95,13 @@ Cluster centers reported as z-scores (positive = above average; negative = below
 
 ### Segment Profiles and Targeted Strategy
 
-| Segment                | Behavioral Profile                                       | Marketing / Retention Strategy                                           |
-| ---------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------ |
-| **New Growth**         | Newest members, recently flew but low frequency          | Post-enrollment bonuses and route recommendations to build flying habits |
-| **Loyal Core**         | Longest membership, still actively flying                | Anniversary rewards and tier upgrades to reinforce loyalty               |
-| **VIP**                | Most frequent, highest miles, most recently active       | Dedicated support, complimentary upgrades, exclusive events              |
-| **Lapsed**             | All metrics below average, longest gap since last flight | Low-cost reactivation offers and status reinstatement challenges         |
-| **Discount-Sensitive** | Near-average except heavy discount reliance              | Promotional fares on off-peak routes to fill underutilized capacity      |
+| Segment                | Behavioral Profile                                       | Marketing / Retention Strategy                                                                 |
+| ---------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| **New Growth**         | Newest members, recently flew but low frequency          | Post-enrollment bonuses and route recommendations to build flying habits                       |
+| **Loyal Core**         | Longest membership, still actively flying                | Anniversary rewards and tier upgrades to create moments of recognition                         |
+| **VIP**                | Most frequent, highest miles, most recently active       | Dedicated support, complimentary upgrades, exclusive events                                    |
+| **Lapsed**             | All metrics below average, longest gap since last flight | Low-cost reactivation offers and status reinstatement challenges                               |
+| **Discount-Sensitive** | Near-average except heavy discount reliance              | Promotional fares on low demand routes, leveraging price sensitivity to improve seat occupancy |
 
 ### Behavioral Analysis
 
@@ -131,9 +131,9 @@ On Loyal Core Customers (n=15,728):
 
 On Loyal Core Customers (n=15,728):
 
-- **Accuracy:** 0.7161
-- **AUC:** 0.7758
-- **Log Loss:** 0.5311
+- **Accuracy:** 0.7165
+- **AUC:** 0.7737
+- **Log Loss:** 0.5331
 
 The model identifies loyal core customers at risk of churning, so the airline can step in with targeted retention campaigns.
 
@@ -141,12 +141,12 @@ The model identifies loyal core customers at risk of churning, so the airline ca
 
 ## Strategic Recommendations
 
-| Decision                    | Recommendation                                                                                                 |
-| --------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Marketing budget allocation | Differentiate spend by segment: VIP gets service investment, Lapsed gets low-cost reactivation offers          |
-| Retention prioritization    | Combine churn prediction score with segment tier — Loyal Core members with high churn score get first outreach |
-| Product positioning         | Build two loyalty tracks: service-led for VIP / Loyal Core, price-led for Lapsed / Discount-Sensitive          |
-| New member onboarding       | New Growth (40% of base) is the growth engine — invest in onboarding to graduate them into Loyal Core          |
+| Decision                    | Recommendation                                                                                                    |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Marketing budget allocation | Differentiate spend by segment: VIP gets service investment, Lapsed gets low-cost reactivation offers             |
+| Retention prioritization    | Combine churn prediction score with segment tier (Loyal Core members with high churn score get first outreach)    |
+| Product positioning         | Build two loyalty tracks: service focused for VIP and Loyal Core, price focused for Lapsed and Discount Sensitive |
+| New member onboarding       | New Growth (40% of base) is the growth engine: invest in onboarding to graduate them into Loyal Core              |
 
 ---
 
